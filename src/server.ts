@@ -92,9 +92,9 @@ app.all("/mcp", (req: Request, res: Response) => {
 const sweeper = setInterval(purgeExpired, 60_000);
 sweeper.unref();
 
-app.listen(config.server.port, config.server.hostname, () => {
+app.listen(config.server.port, config.server.bindHost, () => {
   console.log(
-    `[bookstack-mcp] listening on http://${config.server.hostname}:${config.server.port}`,
+    `[bookstack-mcp] listening on http://${config.server.bindHost}:${config.server.port}`,
   );
   console.log(`[bookstack-mcp] public URL: ${config.server.publicUrl}`);
   console.log(`[bookstack-mcp] MCP endpoint: ${config.server.resourceUri}`);
