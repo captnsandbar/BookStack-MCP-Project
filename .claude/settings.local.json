@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const d=require\\('C:/Site Dev/Claude MCP Project/Docs/BookStack_API.json'\\); const groups=Object.keys\\(d\\); console.log\\('Groups:', groups.join\\(', '\\)\\); let total=0; for\\(const g of groups\\){ console.log\\(g+':', d[g].length\\); total+=d[g].length;} console.log\\('TOTAL:', total\\);\")",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(rm -f bookstack-mcp.smoke.sqlite)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://127.0.0.1:8765/healthz)",
+      "Bash(curl -s http://127.0.0.1:8765/.well-known/oauth-authorization-server)",
+      "Bash(curl -s http://127.0.0.1:8765/.well-known/oauth-protected-resource)",
+      "Bash(curl -s http://127.0.0.1:8765/.well-known/oauth-protected-resource/mcp)",
+      "Bash(taskkill //F //IM node.exe)"
+    ]
+  }
+}
