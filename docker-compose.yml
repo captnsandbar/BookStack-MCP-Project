@@ -1,7 +1,8 @@
 services:
   bookstack-mcp:
-    build: .
-    image: bookstack-mcp:local
+    # Image published by .github/workflows/docker-publish.yml on every push to main.
+    # See: https://github.com/captnsandbar/BookStack-MCP-Project/pkgs/container/bookstack-mcp-project
+    image: ghcr.io/captnsandbar/bookstack-mcp-project:latest
     container_name: bookstack-mcp
     # Bind to host loopback only — your reverse proxy (Caddy/nginx/Cloudflared)
     # is expected to terminate TLS on the same host and forward here. Drop the
@@ -17,15 +18,19 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       OAUTH_PW: ${OAUTH_PW}
       PUBLIC_URL: ${PUBLIC_URL}
-      # LOCAL_SERVER_PORT, BIND_HOST, and DB_FILE are set by the Dockerfile;
+      # LOCAL_SERVER_PORT, BIND_HOST, and DB_FILE are baked into the image;
       # override here only if you need a non-default container layout.
     restart: unless-stopped
+    pull_policy: always
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://127.0.0.1:3000/healthz"]
       interval: 30s
       timeout: 5s
       start_period: 10s
       retries: 3
+    # To pull a newer image: `docker compose pull && docker compose up -d`
+    # To build locally instead of pulling, comment `image:` above and uncomment:
+    # build: .
 
 volumes:
   mcp-data:

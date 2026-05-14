@@ -8,4 +8,7 @@ dist/
 *.sqlite-wal
 *.log
 .DS_Store
-docs/
+# Ignore the contents of Docs/ but keep the BookStack API spec — it's read
+# at runtime by src/catalog.ts and copied into the Docker image at build time.
+Docs/*
+!Docs/BookStack_API.json
