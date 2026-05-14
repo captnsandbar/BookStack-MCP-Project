@@ -4,6 +4,8 @@ dist/
 .env.local
 *.sqlite
 *.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal
 *.log
 .DS_Store
 docs/
