@@ -1,0 +1,31 @@
+services:
+  bookstack-mcp:
+    build: .
+    image: bookstack-mcp:local
+    container_name: bookstack-mcp
+    # Bind to host loopback only — your reverse proxy (Caddy/nginx/Cloudflared)
+    # is expected to terminate TLS on the same host and forward here. Drop the
+    # "127.0.0.1:" prefix only if the proxy lives on a different machine.
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - mcp-data:/app/data
+    environment:
+      BOOKSTACK_URL: ${BOOKSTACK_URL}
+      BOOKSTACK_AUTH_ID: ${BOOKSTACK_AUTH_ID}
+      BOOKSTACK_AUTH_TOKEN: ${BOOKSTACK_AUTH_TOKEN}
+      JWT_SECRET: ${JWT_SECRET}
+      OAUTH_PW: ${OAUTH_PW}
+      PUBLIC_URL: ${PUBLIC_URL}
+      # LOCAL_SERVER_PORT, BIND_HOST, and DB_FILE are set by the Dockerfile;
+      # override here only if you need a non-default container layout.
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:3000/healthz"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+
+volumes:
+  mcp-data:
