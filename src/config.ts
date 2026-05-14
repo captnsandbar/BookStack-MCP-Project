@@ -35,8 +35,12 @@ export const config = {
     authCodeTtlSec: 60 * 5, // 5m
   },
   server: {
-    /** Bind address for the HTTP listener. Loopback-only — terminate TLS at the reverse proxy. */
-    bindHost: "127.0.0.1",
+    /**
+     * Bind address for the HTTP listener. Defaults to loopback-only because the
+     * reverse proxy is expected on the same host. The Dockerfile sets BIND_HOST=0.0.0.0
+     * so the container's published port is reachable from the host's proxy.
+     */
+    bindHost: optional("BIND_HOST", "127.0.0.1"),
     port,
     publicUrl,
     /** Used as `aud` claim on issued tokens (RFC 8707 audience binding). */
